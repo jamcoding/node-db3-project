@@ -10,13 +10,22 @@ function findById(id) {
         .first();
 }
 
-function add(user) {
+function findSteps(id) {
+    return db('steps as s')
+        .join('schemes as sc', 'sc.id', 's.id')
+        .select('s.id', 'sc.scheme_name', 's.step_number', 's.instructions' )
+        .where({ scheme_id: id });
+}
+
+function add(scheme) {
     return db('schemes')
-        
+        .insert(scheme);
 }
 
 function update(changes, id) {
-
+    return db('schemes')
+        .where({ id })
+        .update(changes);
 }
 
 function remove(id) {
@@ -28,6 +37,7 @@ function remove(id) {
 module.exports = {
     find,
     findById,
+    findSteps,
     add,
     update,
     remove
